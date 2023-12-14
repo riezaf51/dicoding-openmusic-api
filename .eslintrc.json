@@ -10,7 +10,10 @@
     },
     "rules": {
         "linebreak-style": "off",
-        "indent": "off",
+        "indent": [
+            "error",
+            4
+        ],
         "no-underscore-dangle": "off"
     }
 }
