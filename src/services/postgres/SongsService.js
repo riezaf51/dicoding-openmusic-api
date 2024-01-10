@@ -92,21 +92,6 @@ class SongsService {
             throw new NotFoundError('Lagu gagal dihapus. Id tidak ditemukan');
         }
     }
-
-    async validateAlbumExistence(albumId) {
-        if (albumId) {
-            const albumValidationQuery = {
-                text: 'SELECT * FROM albums WHERE id = $1',
-                values: [albumId],
-            };
-
-            const albumExists = (await this._pool.query(albumValidationQuery)).rows.length !== 0;
-
-            if (!albumExists) {
-                throw new NotFoundError('Id album tidak ditemukan');
-            }
-        }
-    }
 }
 
 module.exports = SongsService;
