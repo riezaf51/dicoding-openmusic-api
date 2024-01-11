@@ -95,10 +95,28 @@ const mapDBToPlaylistWithSongsModel = (playlistWithSongsData) => {
     return mapDBToPlaylistModel(playlist);
 };
 
+const mapDBToPlaylistActivitiesModel = (playlistWithActivitiesData) => {
+    const { playlist_id: playlistId } = playlistWithActivitiesData[0];
+    const activities = playlistWithActivitiesData
+        .filter((row) => row.action)
+        .map((row) => ({
+            username: row.username,
+            title: row.title,
+            action: row.action,
+            time: row.time,
+        }));
+
+    return {
+        playlistId,
+        activities,
+    };
+};
+
 module.exports = {
     mapDBToSongModel,
     mapDBToAlbumModel,
     mapDBToAlbumWithSongsModel,
     mapDBToPlaylistWithoutSongsModel,
     mapDBToPlaylistWithSongsModel,
+    mapDBToPlaylistActivitiesModel,
 };

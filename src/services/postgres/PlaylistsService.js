@@ -65,6 +65,8 @@ class PlaylistsService {
             throw new InvariantError('Lagu gagal ditambahkan ke playlist');
         }
 
+        await this.updatePlaylistDate(playlistId);
+
         return result.rows[0].id;
     }
 
@@ -94,6 +96,8 @@ class PlaylistsService {
         if (!result.rows.length) {
             throw new InvariantError('Lagu gagal dihapus dari playlist');
         }
+
+        await this.updatePlaylistDate(playlistId);
     }
 
     async verifyPlaylistOwner(id, owner) {
@@ -124,6 +128,20 @@ class PlaylistsService {
         const playlistExists = (await this._pool.query(query)).rows.length !== 0;
 
         if (!playlistExists) {
+            throw new NotFoundError('Id playlist tidak ditemukan');
+        }
+    }
+
+    async updatePlaylistDate(id) {
+        const updatedAt = new Date().toISOString();
+        const query = {
+            text: 'UPDATE playlists SET updated_at = $1 WHERE id = $2 RETURNING id',
+            values: [updatedAt, id],
+        };
+
+        const result = await this._pool.query(query);
+
+        if (!result.rows.length) {
             throw new NotFoundError('Id playlist tidak ditemukan');
         }
     }
