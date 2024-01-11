@@ -17,7 +17,9 @@ class SongsHandler {
             albumId,
         } = request.payload;
 
-        await this._albumsService.validateAlbumExistence(albumId);
+        if (albumId) {
+            await this._albumsService.validateAlbumExistence(albumId);
+        }
 
         const songId = await this._songsService.addSong({
             title,
@@ -68,7 +70,9 @@ class SongsHandler {
         const { id } = request.params;
         const { albumId } = request.payload;
 
-        await this._albumsService.validateAlbumExistence(albumId);
+        if (albumId) {
+            await this._albumsService.validateAlbumExistence(albumId);
+        }
 
         await this._songsService.editSongById(id, request.payload);
 

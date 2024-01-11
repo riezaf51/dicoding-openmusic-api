@@ -22,6 +22,16 @@ const mapDBToSongModel = ({
     updatedAt: updated_at,
 });
 
+const mapDBToLiteSongModel = ({
+    id,
+    title,
+    performer,
+}) => ({
+    id,
+    title,
+    performer,
+});
+
 const mapDBToAlbumModel = ({
     id,
     name,
@@ -38,18 +48,57 @@ const mapDBToAlbumModel = ({
     updatedAt: updated_at,
 });
 
+const mapDBToPlaylistModel = ({
+    id,
+    name,
+    username,
+    songs,
+    created_at,
+    updated_at,
+}) => ({
+    id,
+    name,
+    username,
+    songs,
+    createdAt: created_at,
+    updatedAt: updated_at,
+});
+
+const mapDBToPlaylistWithoutSongsModel = ({
+    id,
+    name,
+    username,
+}) => ({
+    id,
+    name,
+    username,
+});
+
 const mapDBToAlbumWithSongsModel = (albumWithSongsData) => {
     const { album } = albumWithSongsData[0];
     const songs = albumWithSongsData
         .filter((row) => row.song)
-        .map((row) => mapDBToSongModel(row.song));
+        .map((row) => mapDBToSongModel(row));
 
     album.songs = songs;
     return mapDBToAlbumModel(album);
+};
+
+const mapDBToPlaylistWithSongsModel = (playlistWithSongsData) => {
+    const { playlist, username } = playlistWithSongsData[0];
+    const songs = playlistWithSongsData
+        .filter((row) => row.song)
+        .map((row) => mapDBToLiteSongModel(row.song));
+
+    playlist.songs = songs;
+    playlist.username = username;
+    return mapDBToPlaylistModel(playlist);
 };
 
 module.exports = {
     mapDBToSongModel,
     mapDBToAlbumModel,
     mapDBToAlbumWithSongsModel,
+    mapDBToPlaylistWithoutSongsModel,
+    mapDBToPlaylistWithSongsModel,
 };

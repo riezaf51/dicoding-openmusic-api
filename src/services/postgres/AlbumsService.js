@@ -71,17 +71,15 @@ class AlbumsService {
     }
 
     async validateAlbumExistence(id) {
-        if (id) {
-            const query = {
-                text: 'SELECT * FROM albums WHERE id = $1',
-                values: [id],
-            };
+        const query = {
+            text: 'SELECT id FROM albums WHERE id = $1',
+            values: [id],
+        };
 
-            const albumExists = (await this._pool.query(query)).rows.length !== 0;
+        const albumExists = (await this._pool.query(query)).rows.length !== 0;
 
-            if (!albumExists) {
-                throw new NotFoundError('Id album tidak ditemukan');
-            }
+        if (!albumExists) {
+            throw new NotFoundError('Id album tidak ditemukan');
         }
     }
 }
