@@ -75,7 +75,7 @@ class SongsService {
 
         const result = await this._pool.query(query);
 
-        if (!result.rows.length) {
+        if (!result.rowCount) {
             throw new NotFoundError('Gagal memperbarui lagu. Id tidak ditemukan');
         }
     }
@@ -88,7 +88,7 @@ class SongsService {
 
         const result = await this._pool.query(query);
 
-        if (!result.rows.length) {
+        if (!result.rowCount) {
             throw new NotFoundError('Lagu gagal dihapus. Id tidak ditemukan');
         }
     }

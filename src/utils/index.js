@@ -35,6 +35,7 @@ const mapDBToLiteSongModel = ({
 const mapDBToAlbumModel = ({
     id,
     name,
+    cover_url,
     year,
     songs,
     created_at,
@@ -42,6 +43,7 @@ const mapDBToAlbumModel = ({
 }) => ({
     id,
     name,
+    coverUrl: cover_url,
     year,
     songs,
     createdAt: created_at,
